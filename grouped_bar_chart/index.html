@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grouped Bar Chart</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    .bar {
+      fill-opacity: 0.6;
+    }
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const margin = {top: 20, right: 20, bottom: 30, left: 40};
+    const width = 960 - margin.left - margin.right;
+    const height = 500 - margin.top - margin.bottom;
+
+    const x0 = d3.scaleBand()
+      .rangeRound([0, width])
+      .paddingInner(0.1);
+
+    const x1 = d3.scaleBand()
+      .padding(0.05);
+
+    const y = d3.scaleLinear()
+      .rangeRound([height, 0]);
+
+    const z = d3.scaleOrdinal()
+      .range(["blue", "red", "green"]);
+
+    const svg = d3.select("body").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    d3.json("output.json").then(data => {
+      // transform the data to the expected format
+      const nestedData = d3.group(data, d => d["Event Category"], d => d["Gender"]);
+      console.log(nestedData);
+      const transformedData = Array.from(nestedData, ([key, values]) => {
+        const obj = { EventCategory: key };
+        let male = 0, female = 0, others = 0;
+        for (const [gender, group] of values) {
+          if (gender === "male") {
+            male = group.length;
+          } else if (gender === "female") {
+            female = group.length;
+          } else if (gender === "others"){
+            others = group.length;
+          }
+        }
+        obj.male = male;
+        obj.female = female;
+        obj.others = others;
+        return obj;
+      });
+
+
+      const keys = ["male", "female", "others"];
+      const categories = transformedData.map(d => d.EventCategory);
+
+      x0.domain(categories);
+      x1.domain(keys).rangeRound([0, x0.bandwidth()]);
+      y.domain([0, d3.max(transformedData, d => d3.max(keys, key => d[key]))]).nice();
+
+      svg.append("g")
+        .selectAll("g")
+        .data(transformedData)
+        .enter().append("g")
+          .attr("transform", d => "translate(" + x0(d.EventCategory) + ",0)")
+        .selectAll("rect")
+        .data(d => keys.map(key => ({key: key, value: d[key] || 0})))
+        .enter().append("rect")
+          .attr("x", d => x1(d.key))
+          .attr("y", d => y(d.value))
+          .attr("width", x1.bandwidth())
+          .attr("height", d => height - y(d.value))
+          .attr("class", "bar")
+          .attr("fill", d => z(d.key));
+
+      svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x0));
+
+        svg.append("g")
+        .attr("class", "axis")
+        .call(d3.axisLeft(y).ticks(null, "s"))
+        .append("text")
+          .attr("x", 2)
+          .attr("y", y(y.ticks().pop()))
+          .attr("dy", "0.32em")
+          .attr("fill", "#000")
+          .attr("font-weight", "bold")
+          .attr("text-anchor", "start")
+          .text("Number of Posts");
+      
+      const legend = svg.append("g")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", 10)
+        .attr("text-anchor", "end")
+        .selectAll("g")
+        .data(keys.slice().reverse())
+        .enter().append("g")
+          .attr("transform", (d, i) => "translate(0," + i * 20 + ")");
+
+      legend.append("rect")
+        .attr("x", width - 19)
+        .attr("width", 19)
+        .attr("height", 19)
+        .attr("fill", z);
+
+      legend.append("text")
+        .attr("x", width - 24)
+        .attr("y", 9.5)
+        .attr("dy", "0.32em")
+        .text(d => d);
+    });
+  </script>
+</body>
+</html>
+
