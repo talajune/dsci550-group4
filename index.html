@@ -2,13 +2,73 @@
 <html>
   <head>
     <title>Group 4 D3 Visualizations</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #f2f2f2;
+      }
+      h1 {
+        font-size: 36px;
+        margin-top: 50px;
+      }
+      ul {
+        list-style: none;
+        margin-top: 50px;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      li {
+        margin: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease-in-out;
+      }
+      li:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+      }
+      a {
+        display: block;
+        color: #333;
+        text-decoration: none;
+        padding: 20px;
+      }
+      a:hover {
+        background-color: #f2f2f2;
+      }
+    </style>
   </head>
   <body>
     <h1>Pixstory - D3 Visualizations</h1>
     <ul>
-        <li><a href="scatterplot_age_gender_toxicity/index.html">Scatterplot of Age and Toxicity by Gender - Scatterplot Visualization</a></li>
-        <li><a href="grouped_bar_chart/index.html">Number of Posts of Main Event Topics by Gender - Grouped Bar Chart Visualization</a></li>
+      <li>
+        <a href="scatterplot_age_gender_toxicity/index.html">
+          <h2>Scatterplot of Age and Toxicity by Gender</h2>
+          <p>Scatterplot Visualization</p>
+        </a>
+      </li>
+      <li>
+        <a href="grouped_bar_chart/index.html">
+          <h2>Number of Posts of Main Event Topics by Gender</h2>
+          <p>Grouped Bar Chart Visualization</p>
+        </a>
+      </li>
+      <li>
+        <a href="stacked_bar_chart_Ric/index.html">
+          <h2>Proportional Frequency by Age by Interest</h2>
+          <p>Stacked Bar Chart Visualization</p>
+        </a>
+      </li>
+      <li>
+        <a href="BoxWhisker/index.html">
+          <h2>Not working yet - Box and Whisker Visualization</h2>
+        </a>
+      </li>
     </ul>
-     <p>test<p>
-    </body>
+  </body>
 </html>
+
