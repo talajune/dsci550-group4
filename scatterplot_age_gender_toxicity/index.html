@@ -36,16 +36,6 @@ var svg = d3.select("#chart")
    .style("font-weight", "bold")
    .text("Scatterplot of Age vs Toxicity by Gender");
 
-// Define the scales
-/**
-var xScale = d3.scaleLinear()
-  .domain([10, 90])
-  .range([0, width]);
-
-var yScale = d3.scaleLinear()
-  .domain([0, d3.max(data, function(d) { return parseFloat(d.toxicity); })])
-  .range([height, 0]);
-*/
 var xScale = d3.scaleLinear()
   .domain([10, 90])
   .range([0, width]);
@@ -55,11 +45,9 @@ var xScale = d3.scaleLinear()
   .range([height - margin.bottom, margin.top]);
 
 
-
-
 var colorScale = d3.scaleOrdinal()
   .domain(["male", "female", "others"])
-  .range(["blue", "pink", "green"]);
+  .range(["blue", "red", "green"]);
 
 // Define the axes
 var xAxis = d3.axisBottom(xScale);
@@ -109,16 +97,6 @@ svg.selectAll(".dot")
     }
   })
   
-  .style("opacity", function(d) {
-    if (d.Gender.toLowerCase() === "male") {
-      return 0.7;
-    } else if (d.Gender.toLowerCase() === "female") {
-      return 0.7;
-    } else if (d.Gender.toLowerCase() === "others") {
-      return 0.5;
-    }
-  });
-
 
   svg.selectAll(".axis-label")
   .style("display", "block")
