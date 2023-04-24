@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Scatterplot of Age vs Toxicity by Gender</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+  </head>
+  <body>
+    <svg id="chart" style="margin: 50px auto 0; display: block;"></svg>
+    <div id="legend"></div>
+   <!-- <script src="script.js"></script> -->
+   <script>
+d3.csv("pixstory_geo_input.csv").then(function(data) {
+
+  // Filter data to exclude empty Gender values
+  data = data.filter(function(d) {
+    return d.Gender !== "";
+  });
+// Define the chart dimensions
+var margin = { top: 20, right: 20, bottom: 80, left: 50 };
+var width = 800 - margin.left - margin.right;
+var height = 500 - margin.top - margin.bottom;
+
+// Create the SVG element
+var svg = d3.select("#chart")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + 50 + margin.bottom + 75) // add 50 pixels for title
+  .append("g")
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  svg.append("text")
+   .attr("x", (width / 2))
+   .attr("y", 0 - ((margin.top / 2)-5))
+   .attr("text-anchor", "middle")
+   .style("font-size", "16px")
+   .style("font-weight", "bold")
+   .text("Scatterplot of Age vs Toxicity by Gender");
+
+// Define the scales
+/**
+var xScale = d3.scaleLinear()
+  .domain([10, 90])
+  .range([0, width]);
+
+var yScale = d3.scaleLinear()
+  .domain([0, d3.max(data, function(d) { return parseFloat(d.toxicity); })])
+  .range([height, 0]);
+*/
+var xScale = d3.scaleLinear()
+  .domain([10, 90])
+  .range([0, width]);
+  
+  var yScale = d3.scaleSqrt()
+  .domain([0, d3.max(data, function(d) { return d.toxicity; })])
+  .range([height - margin.bottom, margin.top]);
+
+
+
+
+var colorScale = d3.scaleOrdinal()
+  .domain(["male", "female", "others"])
+  .range(["blue", "pink", "green"]);
+
+// Define the axes
+var xAxis = d3.axisBottom(xScale);
+var yAxis = d3.axisLeft(yScale);
+
+// Draw the x-axis and axis label
+svg.append("g")
+  .attr("class", "x-axis")
+  .attr("transform", "translate(0," + yScale.range()[0] + ")") // set y position to yScale's minimum value
+  .call(xAxis)
+  .append("text")
+  .attr("class", "axis-label")
+  .attr("x", width / 2)
+  .attr("y", margin.bottom - 10)
+  .text("Age");
+
+// Draw the y-axis and axis label
+svg.append("g")
+  .attr("class", "y-axis")
+  .call(yAxis)
+  .append("text")
+  .attr("class", "axis-label")
+  .attr("transform", "rotate(-90)")
+  .attr("x", -((height - margin.top - margin.bottom) / 2)) // set x position to middle of y-axis
+  .attr("y", 0 - margin.left)
+  .attr("dy", "1em")
+  .style("text-anchor", "middle")
+  .text("Toxicity");
+
+
+
+// Add dots
+svg.selectAll(".dot")
+  .data(data)
+  .enter().append("circle")
+  .attr("class", "dot")
+  .attr("cx", function(d) { return xScale(parseFloat(d.Age)); })
+  .attr("cy", function(d) { return yScale(parseFloat(d.toxicity)); })
+  .attr("r", 5)
+  .style("fill", function(d) {
+    if (d.Gender.toLowerCase() === "male") {
+      return "blue";
+    } else if (d.Gender.toLowerCase() === "female") {
+      return "pink";
+    } else if (d.Gender.toLowerCase() === "others") {
+      return "green";
+    }
+  })
+  
+  .style("opacity", function(d) {
+    if (d.Gender.toLowerCase() === "male") {
+      return 0.7;
+    } else if (d.Gender.toLowerCase() === "female") {
+      return 0.7;
+    } else if (d.Gender.toLowerCase() === "others") {
+      return 0.5;
+    }
+  });
+
+
+  svg.selectAll(".axis-label")
+  .style("display", "block")
+  .style("font-size", "14px")
+  .style("font-weight", "bold")
+  .style("fill", "black");
+
+// LEGEND TIME
+// Define the legend box
+// Define the legend box
+var legendBox = svg.append("rect")
+  .attr("class", "legend-box")
+  .attr("x", width - 110)
+  .attr("y", 10)
+  .attr("rx", 10)
+  .attr("ry", 10)
+  .attr("width", 100)
+  .attr("height", colorScale.domain().length * 20 + 10)
+  .style("fill", "white")
+  .style("stroke", "black");
+
+// Define the legend
+var legend = svg.selectAll(".legend")
+  .data(colorScale.domain())
+  .enter().append("g")
+  .attr("class", "legend")
+  .attr("transform", function(d, i) { return "translate(" + (width - 100) + "," + (i * 20 + 20) + ")"; });
+
+// Add colored circles to legend
+legend.append("circle")
+  .attr("cx", 10)  // Move circle to the left side
+  .attr("cy", 5)   // Center circle vertically
+  .attr("r", 7)
+  .style("fill", colorScale);
+
+// Add legend text
+legend.append("text")
+  .attr("x", 20)   // Move text to the right of circle
+  .attr("y", 4)    // Center text vertically
+  .attr("dy", ".35em")
+  .style("text-anchor", "start")  // Anchor text to the left
+  .text(function(d) { return d; });
+
+
+
+
+// Add legend title
+svg.append("text")
+  .attr("class", "legend-title")
+  .attr("x", width - 100)
+  .attr("y", 5)
+  .style("font-weight", "bold")
+  .style("font-size", "14px")
+  .text("Gender");
+
+});
+   </script>
+  </body>
+
+
+
+
+
+
+
+<!--
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>My Chloropleth Map</title>
+    <style>
+        /* CSS styles for the map container */
+        #map-container {
+            height: 600px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Toxicity by Location Chloropleth Map</h1>
+    <div id="map-container"></div>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson@3.0.2/dist/topojson.min.js"></script>
+
+    <script src="script.js"></script>
+</body>
+</html>
+-->
