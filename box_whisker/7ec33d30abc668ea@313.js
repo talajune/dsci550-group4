@@ -1,32 +1,24 @@
 import define1 from "./7a9e12f9fb3d8e06@498.js";
 
 function _1(md){return(
-md`# Box Plot
+md`# Box Plot of Male Identity Attack Scores, by Age
 
-A box-and-whisker plot shows summary statistics of a quantitative distribution. Here, the price distribution (*y*-axis) of a set of diamonds is plotted for a given range of carat values (*x*-axis).`
+A box-and-whisker plot shows summary statistics of the score of identity attacks in the narrative and title of Pixstory posts for males, broken down by age.`
 )}
 
-function _chart(BoxPlot,scores,width){return(
-BoxPlot(scores, {
+function _chart(BoxPlot,score,width){return(
+BoxPlot(score, {
   x: d => d.Age,
   y: d => d.identity_attack,
-  xLabel: "Age →",
-  yLabel: "↑ Identity Attack",
+  xLabel: "Identity Attack Score →",
+  yLabel: "↑ Age",
   width,
   height: 500
 })
 )}
 
-function _scores(FileAttachment){return(
+function _score(FileAttachment){return(
 FileAttachment("box.csv").csv({typed: true})
-)}
-
-function _4(howto){return(
-howto("BoxPlot")
-)}
-
-function _5(linkplot){return(
-linkplot("https://observablehq.com/@observablehq/plot-box", {title: "Box Plot"})
 )}
 
 function _BoxPlot(d3){return(
@@ -175,14 +167,12 @@ export default function define(runtime, observer) {
   const main = runtime.module();
   function toString() { return this.url; }
   const fileAttachments = new Map([
-    ["box.csv", {url: new URL("./files/ae06ab6b45087e8019b9a42b3cf903ef10f9b1c7952a6bb68ceddf062f6726feb93be3d0cdd3014c1fa9ccdebb88943d4a3389f60ede74cf32fc9978fa6b1798.csv", import.meta.url), mimeType: "text/csv", toString}]
+    ["box.csv", {url: new URL("./files/d5dfc71c0610290c5f054a044bef61a77b46e4f5b0f232e7c483a5c7b493f374489fa59d88d114bc4d1bc842abb781c701436bb5379213a5e4b5918437354dc3.csv", import.meta.url), mimeType: "text/csv", toString}]
   ]);
   main.builtin("FileAttachment", runtime.fileAttachments(name => fileAttachments.get(name)));
   main.variable(observer()).define(["md"], _1);
-  main.variable(observer("chart")).define("chart", ["BoxPlot","scores","width"], _chart);
-  main.variable(observer("scores")).define("scores", ["FileAttachment"], _scores);
-  main.variable(observer()).define(["howto"], _4);
-  main.variable(observer()).define(["linkplot"], _5);
+  main.variable(observer("chart")).define("chart", ["BoxPlot","score","width"], _chart);
+  main.variable(observer("score")).define("score", ["FileAttachment"], _score);
   main.variable(observer("BoxPlot")).define("BoxPlot", ["d3"], _BoxPlot);
   const child1 = runtime.module(define1);
   main.import("howto", child1);
