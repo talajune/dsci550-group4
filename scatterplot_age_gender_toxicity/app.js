@@ -1,3 +1,4 @@
+/*
 // Set up the map projection
 const projection = d3.geoMercator()
   .center([0, 20])
@@ -10,7 +11,7 @@ const svg = d3.select("body")
   .attr("width", 960)
   .attr("height", 600);
 
-// Load the geojson data
+// Load the json data
 d3.json("geodata.geojson", function(data) {
   // Create a color scale for the toxicity scores
   const colorScale = d3.scaleLinear()
@@ -67,3 +68,4 @@ d3.json("geodata.geojson", function(data) {
     .attr("offset", "100%")
     .attr("stop-color", "red");
 });
+*/
