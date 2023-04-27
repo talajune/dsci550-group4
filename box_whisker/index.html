@@ -3,9 +3,6 @@
 <title>Box Plot of Male Identity Attack Scores, by Age</title>
 <link rel="stylesheet" type="text/css" href="./inspector.css">
 <body>
-   <p> The box and whiskers plot shows summary statistics for the identity attack scores of male-identifying Pixstory posters, broken down by age. There is a stereotype that older men may revert to identity attacks as a form of online insult, so this visualization sheds light on whether that stereotype is accurate. Overall, the identity attack scores across all ages are relatively low. However, we do see the mean and spread of the scores increase in older posters. 
-    That being said, younger posters in their early 20’s have more outliers with higher post values, so while there are not as many identity attacks among the younger demographic, there are individuals who are worse offenders within the larger group of young men.</p>
-</body>
 <script type="module">
 
 import define from "./index.js";
@@ -13,5 +10,7 @@ import {Runtime, Library, Inspector} from "./runtime.js";
 
 const runtime = new Runtime();
 const main = runtime.module(define, Inspector.into(document.body));
-
+<p> The box and whiskers plot shows summary statistics for the identity attack scores of male-identifying Pixstory posters, broken down by age. There is a stereotype that older men may revert to identity attacks as a form of online insult, so this visualization sheds light on whether that stereotype is accurate. Overall, the identity attack scores across all ages are relatively low. However, we do see the mean and spread of the scores increase in older posters. 
+    That being said, younger posters in their early 20’s have more outliers with higher post values, so while there are not as many identity attacks among the younger demographic, there are individuals who are worse offenders within the larger group of young men.</p>
 </script>
+</body>
