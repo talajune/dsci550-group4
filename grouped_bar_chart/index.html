@@ -100,6 +100,10 @@
           .attr("y", y(y.ticks().pop()))
           .attr("dy", "0.32em")
           .attr("fill", "#000")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 0 - margin.left - 3)
+          .attr("x",0 - (height / 1.7))
+          .attr("dy", "1em")
           .attr("font-weight", "bold")
           .attr("text-anchor", "start")
           .text("Number of Posts");
