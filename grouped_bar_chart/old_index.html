@@ -7,7 +7,7 @@
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
     .bar {
-      fill-opacity: 1;
+      fill-opacity: 1.0;
     }
     .axis path,
     .axis line {
@@ -124,35 +124,6 @@
         .attr("y", 9.5)
         .attr("dy", "0.32em")
         .text(d => d);
-      
-      const xAxis = svg.append("g")
-        .attr("class", "axis")
-        .attr("transform", "translate(0," + height + ")");
-      
-      const categoryAxis = d3.axisBottom(x0);
-      xAxis.call(categoryAxis);
-     
-      svg.append("text")
-        .attr("transform", "translate(" + (width/2) + " ," + (height + margin.top + 3.5) + ")")
-        .style("text-anchor", "middle")
-        .style("font-size", "12px")
-        .attr("dy", "0.32em")
-        .attr("fill", "#000")
-        .attr("font-weight", "bold")
-        .attr("text-anchor", "start")
-        .text("Event Category");
-      
-      svg.append("text")
-        .attr("x", (width / 2))
-        .attr("y", 0 - (margin.top / 40))
-        .attr("text-anchor", "middle")
-        .style("font-size", "20px")
-        .style("text-decoration", "underline")
-        .text("Number of Posts by Event Category Grouped by Gender");
-
-
-
-
     });
   </script>
 </body>
